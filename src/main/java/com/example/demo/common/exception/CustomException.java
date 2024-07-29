@@ -9,8 +9,9 @@ import java.io.Serial;
 
 @Getter
 public class CustomException extends RuntimeException {
-    @Serial
-    private static final long serialVersionUID = 8576565958644441148L;
+
+    // @Serial
+    // private static final long serialVersionUID = 8576565958644441148L;
     private final CodeInterface codeInterface;
     private boolean isAlert = true;
 

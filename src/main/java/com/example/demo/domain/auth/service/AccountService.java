@@ -13,6 +13,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.common.code.ErrorCode;
+import com.example.demo.common.exception.CustomException;
 import com.example.demo.domain.auth.model.request.*;
 import com.example.demo.domain.repository.*;
 import com.example.demo.domain.repository.types.User;
@@ -28,13 +30,11 @@ public class AccountService {
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
         String email = request.email();
 
-
-
         Optional<User> user = userRepository.findByEmail(email);
 
         if (user.isPresent()) {
             // 만약 값이 없다면??
-            throw new CustomException()
+            throw new CustomException(ErrorCode.NOT_FIND_EMAIL);
         }
 
         // 값이 존재하면 true, 없다면 False
