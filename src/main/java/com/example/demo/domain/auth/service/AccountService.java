@@ -26,21 +26,27 @@ public class AccountService {
 
     private final UserRepository userRepository;;
 
-    @Transactional(transactionManager = "AccountTransactionManager")
+    // @Transactional(transactionManager = "AccountTransactionManager")
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
         String email = request.email();
 
-        Optional<User> user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElseGet(() -> userRepository.save(
+            User.builder()
+            .email(request.email())
+            .build()
+        ));
 
-        if (user.isPresent()) {
-            // 만약 값이 없다면??
-            throw new CustomException(ErrorCode.NOT_FIND_EMAIL);
-        }
+        System.out.println(user.getEmail());
 
-        // 값이 존재하면 true, 없다면 False
-        // if (optional.isPresent()) {
-        //     System.out.println("Value is present: " + optional.get());
-        // }
+
+
+        // 만약 추가적인 에러처리를 하고 싶다면,
+        /*
+         *  (user.isPresent()) --> Optinal로 받게 된다면 사용 가능
+         * throw new CustomException(ErrorCode.NOT_FIND_EMAIL);
+         * 
+         */
+
 
         return new CreateAccountResponse(request.email());
     }

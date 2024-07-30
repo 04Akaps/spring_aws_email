@@ -14,7 +14,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="User")
+@Table(name="user")
 public class User {
 
     @Id
@@ -22,5 +22,5 @@ public class User {
     private String id;
 
     @Column
-    private String username;
+    private String email;
 }
