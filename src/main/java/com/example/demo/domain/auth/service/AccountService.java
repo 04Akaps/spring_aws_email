@@ -26,7 +26,7 @@ public class AccountService {
 
     private final UserRepository userRepository;;
 
-    // @Transactional(transactionManager = "AccountTransactionManager")
+    @Transactional(transactionManager = "AccountTransactionManager")
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
         String email = request.email();
 
@@ -35,6 +35,8 @@ public class AccountService {
             .email(request.email())
             .build()
         ));
+
+        // throw new CustomException(ErrorCode.NOT_FIND_EMAIL);
 
         System.out.println(user.getEmail());
 
