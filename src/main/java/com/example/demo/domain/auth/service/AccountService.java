@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.common.code.ErrorCode;
 import com.example.demo.common.exception.CustomException;
+import com.example.demo.common.validator.EmailValidator;
 import com.example.demo.domain.auth.model.request.*;
 import com.example.demo.domain.repository.*;
 import com.example.demo.domain.repository.types.User;
@@ -24,32 +25,27 @@ import com.example.demo.domain.repository.types.User;
 @RequiredArgsConstructor
 public class AccountService {
 
-    private final UserRepository userRepository;;
+    private final UserRepository userRepository;
 
     @Transactional(transactionManager = "AccountTransactionManager")
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
         String email = request.email();
 
-        User user = userRepository.findByEmail(email).orElseGet(() -> userRepository.save(
-            User.builder()
-            .email(request.email())
-            .build()
-        ));
+        if (!EmailValidator.isValidEmail(email)) {
+            // if not valid email request
+            log.error("Failed To Valid Email", email);
+            throw new CustomException(ErrorCode.NOT_VALID_EMAIL_REQUEST);
+        }else {
+            User user = userRepository.findByEmail(email).orElseGet(() -> userRepository.save(
+                User.builder()
+                .email(email)
+                .isValid(false)
+                .build()
+            ));
+    
+            log.info("Get From DB", user.getEmail());
+        }
 
-        // throw new CustomException(ErrorCode.NOT_FIND_EMAIL);
-
-        System.out.println(user.getEmail());
-
-
-
-        // 만약 추가적인 에러처리를 하고 싶다면,
-        /*
-         *  (user.isPresent()) --> Optinal로 받게 된다면 사용 가능
-         * throw new CustomException(ErrorCode.NOT_FIND_EMAIL);
-         * 
-         */
-
-
-        return new CreateAccountResponse(request.email());
+        return new CreateAccountResponse(email);
     }
 }

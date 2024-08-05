@@ -6,7 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ErrorCode implements CodeInterface {
-    NOT_FIND_EMAIL(-1, "메일을 찾지 못하였습니다.");
+    NOT_VALID_EMAIL_REQUEST(-1, "잘못된 이메일 형식입니다."),
+
+    REDIS_VALUE_NOT_FOUND(-100, "In Memory에 키가 없습니다.");
 
     private final Integer code;
     private final String message;
