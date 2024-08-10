@@ -26,6 +26,7 @@ import com.example.demo.domain.repository.types.User;
 public class AccountService {
 
     private final UserRepository userRepository;
+    private final MailService mailService;
 
     @Transactional(transactionManager = "AccountTransactionManager")
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
@@ -35,7 +36,7 @@ public class AccountService {
             // if not valid email request
             log.error("Failed To Valid Email", email);
             throw new CustomException(ErrorCode.NOT_VALID_EMAIL_REQUEST);
-        }else {
+        } else {
             User user = userRepository.findByEmail(email).orElseGet(() -> userRepository.save(
                 User.builder()
                 .email(email)
@@ -44,6 +45,7 @@ public class AccountService {
             ));
     
             log.info("Get From DB", user.getEmail());
+
         }
 
         return new CreateAccountResponse(email);

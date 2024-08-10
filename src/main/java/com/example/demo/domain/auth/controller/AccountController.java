@@ -25,15 +25,6 @@ public class AccountController {
     private final AccountService accountService;
 
     @Operation(
-        summary = "초대 메일 송신", 
-        description = "초대 메일을 전송 합니다. 기존에 존재하지 않는 유저여야 합니다."
-    )
-    @PostMapping("/invite/{userId}")
-    public String sendInviteMail(@PathVariable String userId) {
-        return "test";
-    }
-
-    @Operation(
         summary = "새로운 유저 생성", 
         description = "새로운 유저를 생성합니다."
     )

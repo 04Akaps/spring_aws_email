@@ -21,11 +21,19 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 
+	// google
+	implementation 'com.google.code.gson:gson:2.11.0'
+
+	// lombok
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
 
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	// aws
+	implementation 'io.awspring.cloud:spring-cloud-aws-ses:3.0.3'
+	implementation 'io.awspring.cloud:spring-cloud-starter-aws-secrets-manager-config:2.4.4'
 
 	// redis
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'

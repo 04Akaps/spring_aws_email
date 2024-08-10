@@ -16,24 +16,28 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class RedisService {
-    private final RedisTemplate<String, String> redisTemplate;
+public class RedisService<V> {
+    private final RedisTemplate<String, V> redisTemplate;
 
     // Config로 관리 가능
     private Duration defaultExpireTime = Duration.ofMinutes(5);
 
-    public String getData(String key) {
+    public V getMusetValue(String key) {
         return Optional.ofNullable(redisTemplate.opsForValue().get(key)).orElseThrow(
             () -> new CustomException(ErrorCode.REDIS_VALUE_NOT_FOUND)
         );
     }
 
-    public void setData(String key, String value, Duration expireTime) {
+    public V getValue(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+
+    public void setData(String key, V value, Duration expireTime) {
         redisTemplate.opsForValue().set(key, value);
         redisTemplate.expire(key, expireTime);
     }
 
-    public void setData(String key, String value) {
+    public void setData(String key, V value) {
         redisTemplate.opsForValue().set(key, value);
         redisTemplate.expire(key, this.defaultExpireTime);
     }
