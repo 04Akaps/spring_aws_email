@@ -17,6 +17,6 @@ office:
   url: localhost:8080
 aws:
   ses:
-    access-key: AKIARK3V5NVAE2M3WUZN
-    secret-key: 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
-    region: us-east-1
+    access-key: ${ACCESS_KEY}
+    secret-key: ${SECRET_KEY}
+    region: ${AWS_REGION}
