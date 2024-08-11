@@ -19,11 +19,11 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private String t_id;
 
     @Column
     private String email;
 
     @Column(nullable = false)
-    private Boolean isValid;
+    private Boolean is_valid;
 }

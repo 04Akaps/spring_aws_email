@@ -6,7 +6,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.support.TransactionTemplate;
 
 import javax.sql.DataSource;
 
@@ -33,10 +35,15 @@ public class AccountMySQLConfig {
         return dataSource;
     }
 
-    @Bean(name = "AccountTransactionManager")
-    public PlatformTransactionManager transactionManager(DataSource dataSource) {
+    @Bean(name = "createAccountTransactionManager")
+    public PlatformTransactionManager createAccountTransactionManager(DataSource dataSource) {
         DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
 
         return transactionManager;
+    }
+
+    @Bean
+    public DataSourceTransactionManager transactionManager(DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }

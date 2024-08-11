@@ -1,4 +1,4 @@
-package com.example.demo.domain.redis;
+package com.example.demo.common.redis;
 
 import org.springframework.stereotype.Service;
 
@@ -16,28 +16,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class RedisService<V> {
-    private final RedisTemplate<String, V> redisTemplate;
+public class RedisService {
+    private final RedisTemplate<String, String> redisTemplate;
 
     // Config로 관리 가능
     private Duration defaultExpireTime = Duration.ofMinutes(5);
 
-    public V getMusetValue(String key) {
+    public String getValue(String key) {
         return Optional.ofNullable(redisTemplate.opsForValue().get(key)).orElseThrow(
             () -> new CustomException(ErrorCode.REDIS_VALUE_NOT_FOUND)
-        );
+            );
     }
 
-    public V getValue(String key) {
-        return redisTemplate.opsForValue().get(key);
-    }
-
-    public void setData(String key, V value, Duration expireTime) {
+     public void setData(String key, String value, Duration expireTime) {
         redisTemplate.opsForValue().set(key, value);
         redisTemplate.expire(key, expireTime);
     }
 
-    public void setData(String key, V value) {
+    public void setData(String key, String value) {
         redisTemplate.opsForValue().set(key, value);
         redisTemplate.expire(key, this.defaultExpireTime);
     }

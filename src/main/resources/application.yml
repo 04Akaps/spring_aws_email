@@ -10,13 +10,13 @@ spring:
     password: root
     driver-class-name: com.mysql.jdbc.Driver
   redis:
-    host: ${REDIS_HOST}
+    host: localhost:6379
     port: 6379
-    password: ${REDIS_PASSWORD}
+    password: root
 office:
   url: localhost:8080
 aws:
   ses:
-    access-key: ${ACCESS_KEY}
-    secret-key: ${SECRET_KEY}
-    region: ${AWS_REGION}
+    access-key: AKIARK3V5NVAE2M3WUZN
+    secret-key: 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
+    region: us-east-1

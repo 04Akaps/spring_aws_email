@@ -16,9 +16,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.common.code.ErrorCode;
 import com.example.demo.common.exception.CustomException;
 import com.example.demo.common.validator.EmailValidator;
+import com.example.demo.domain.auth.enums.MailTemplate;
 import com.example.demo.domain.auth.model.request.*;
 import com.example.demo.domain.repository.*;
 import com.example.demo.domain.repository.types.User;
+import com.example.demo.security.utils.OTP;
 
 @Slf4j
 @Service
@@ -28,23 +30,30 @@ public class AccountService {
     private final UserRepository userRepository;
     private final MailService mailService;
 
-    @Transactional(transactionManager = "AccountTransactionManager")
+    @Transactional(transactionManager = "createAccountTransactionManager")
     public CreateAccountResponse createAccount(CreateAccountRequest request) {
         String email = request.email();
 
         if (!EmailValidator.isValidEmail(email)) {
-            // if not valid email request
             log.error("Failed To Valid Email", email);
             throw new CustomException(ErrorCode.NOT_VALID_EMAIL_REQUEST);
         } else {
             User user = userRepository.findByEmail(email).orElseGet(() -> userRepository.save(
                 User.builder()
                 .email(email)
-                .isValid(false)
+                .is_valid(false)
                 .build()
             ));
     
             log.info("Get From DB", user.getEmail());
+
+            if (!user.getIs_valid()) {
+                Map<String, String> data = new HashMap<>();
+                data.put("email", user.getEmail());
+                // TODO -> SECRET는 비밀키이기 떄문에 추후 DB를 통해 관리
+                data.put("link", OTP.generateQRCodeURL(user.getEmail(), "SECRET"));
+                mailService.sendTemplatedEmail(MailTemplate.OTP_BARCODE.getTemplateName(), data, user.getEmail());
+            }
 
         }
 
