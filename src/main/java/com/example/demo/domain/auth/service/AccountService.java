@@ -48,10 +48,13 @@ public class AccountService {
             log.info("Get From DB", user.getEmail());
 
             if (!user.getIs_valid()) {
-                Map<String, String> data = new HashMap<>();
-                data.put("email", user.getEmail());
-                // TODO -> SECRET는 비밀키이기 떄문에 추후 DB를 통해 관리
-                data.put("link", OTP.generateQRCodeURL(user.getEmail(), "SECRET"));
+                String link = OTP.generateQRCodeURL(user.getEmail(), "SECRET");
+                log.info(link);
+                Map<String, String> data = Map.of(
+                    "email", user.getEmail(),
+                    "link", link
+                );
+
                 mailService.sendTemplatedEmail(MailTemplate.OTP_BARCODE.getTemplateName(), data, user.getEmail());
             }
 

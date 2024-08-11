@@ -1,0 +1,8 @@
+{
+  "Source": "Mary Major <sdl155@naver.com>",
+  "Template": "invite-opt-barcode",
+  "Destination": {
+    "ToAddresses": ["sdl182975@gmail.com"]
+  },
+  "TemplateData": "{ \"name\":\"Alejandro\", \"favoriteanimal\": \"alligator\" }"
+}
