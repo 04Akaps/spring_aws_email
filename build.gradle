@@ -33,6 +33,7 @@ dependencies {
 
 	// QR
 	implementation 'com.google.zxing:core:3.3.3'
+	implementation 'de.taimos:totp:1.0'
 
 	// aws
 	implementation 'io.awspring.cloud:spring-cloud-aws-ses:3.0.3'

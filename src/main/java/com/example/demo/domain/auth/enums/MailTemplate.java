@@ -9,7 +9,6 @@ import org.apache.commons.lang3.StringUtils;
 @Getter
 @AllArgsConstructor
 public enum MailTemplate {
-    NewMember("invite", MailProperties.url + "/signUp?c="),
     OTP_BARCODE("invite-opt-barcode", StringUtils.EMPTY);
 
     private final String templateName;

@@ -4,10 +4,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.domain.auth.model.request.CreateAccountRequest;
-import com.example.demo.domain.auth.model.response.CreateAccountResponse;
+import com.example.demo.domain.auth.model.request.SendQrRequest;
+import com.example.demo.domain.auth.model.request.VerifyQrRequest;
+import com.example.demo.domain.auth.model.response.SendQrResponse;
+import com.example.demo.domain.auth.model.response.VerifyQrResponse;
 import com.example.demo.domain.auth.service.AccountService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,10 +32,16 @@ public class AccountController {
         summary = "새로운 유저 생성", 
         description = "새로운 유저를 생성합니다."
     )
-    @GetMapping("/make-user/{email}")
-    public CreateAccountResponse makeUser(
-        @RequestBody @Valid CreateAccountRequest request
+    @GetMapping("/send-qr/{email}")
+    public SendQrResponse sendQr(
+        @RequestBody @Valid SendQrRequest request
     ) {
-        return accountService.createAccount(request);
+        return accountService.sendQRCode(request);
+    }
+
+    public VerifyQrResponse verifyQr(
+        @RequestBody @Valid VerifyQrRequest request
+    ) {
+        return accountService.verifyQr(request);
     }
 }

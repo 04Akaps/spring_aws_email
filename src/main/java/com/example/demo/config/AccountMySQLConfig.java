@@ -42,6 +42,13 @@ public class AccountMySQLConfig {
         return transactionManager;
     }
 
+    @Bean(name = "verifyQrTransactionManager")
+    public PlatformTransactionManager verifyQrTransactionManager(DataSource dataSource) {
+        DataSourceTransactionManager transactionManager = new DataSourceTransactionManager(dataSource);
+
+        return transactionManager;
+    }
+
     @Bean
     public DataSourceTransactionManager transactionManager(DataSource dataSource) {
         return new DataSourceTransactionManager(dataSource);
